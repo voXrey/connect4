@@ -1,5 +1,8 @@
 import random
 
+from core.minmax import BotMinMax
+
+
 class PlayersController:
     """Class to manage players (humans, random, bot)"""
     def __init__(self, controller, player1, player2):
@@ -17,12 +20,16 @@ class PlayersController:
             player_number (int): number of player who plays
         """
         player = self.players[player_number] # define player
-        tab:list[list[int]] = self.controller.getTab() # get game's tab
         available_columns:list[int] = self.controller.getAvailableColumns() # get index of all available columns
 
         if player.type == "random":
             column = random.choice(available_columns)
             self.controller.play(player.tab_number, column)
+
+        elif player.type == "minmax":
+            minmax = BotMinMax(self.controller, 1, player.tab_number)
+            col = minmax.wherePlay()
+            self.controller.play(player.tab_number, col)
 
         elif player.type == "human":
             # Display game's tab

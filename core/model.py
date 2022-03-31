@@ -23,13 +23,13 @@ class GameModel:
         name="Player1",
         tab_number=1,
         symbol="X",
-        type="random"
+        type="human"
     )
     player2 = Player(
         name="Player2",
         tab_number=-1,
         symbol="O",
-        type="random"
+        type="minmax"
     )
 
     counter:int = 0

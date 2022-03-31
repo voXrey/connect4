@@ -28,17 +28,37 @@ class Controller:
         """
         return self.model.tab
 
-    def isFilledColumn(self, column:int) -> bool:
+    def getLinesCount(self) -> int:
+        """
+        Get game's lines count
+
+        Returns:
+            int: lines count
+        """
+        return self.model.lines_count
+
+    def getColumnsCount(self) -> int:
+        """
+        Get game's columns count
+
+        Returns:
+            int: columns count
+        """
+        return self.model.columns_count
+
+    def isFilledColumn(self, column:int, tab:list[list[int]]=None) -> bool:
         """
         Check if a column is filled
 
         Args:
             column (int): index of column to check
+            tab (list[list[int]]): tab, default `None` = current game's tab
 
         Returns:
             bool: `True` if column is filled, `False` if not
         """
-        return self.model.tab[0][column] != 0
+        if tab is None: tab = self.getTab()
+        return tab[0][column] != 0
 
     def isFilledTab(self) -> bool:
         """
@@ -54,20 +74,22 @@ class Controller:
         # If all columns are filled return True
         return True
     
-    def columnLowestLine(self, column:int) -> int:
+    def columnLowestLine(self, column:int, tab:list[list[int]]=None) -> int:
         """
         Get lowest column's line 
 
         Args:
             column (int): index of column to get lowest line
+            tab (list[list[int]]): tab, default `None` = current game's tab
 
         Returns:
             int: line's index or `-1` if column is filled
         """
+        if tab is None: tab = self.getTab()
         # For each line of column...
         for line in range(self.model.lines_count-1, -1, -1):
             # ...check if place is available
-            if self.model.tab[line][column] == 0: return line
+            if tab[line][column] == 0: return line
         # If column is filled
         return -1
 
